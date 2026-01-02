@@ -1,0 +1,27 @@
+Introduction to RAG Systems
+
+Retrieval-Augmented Generation (RAG) is a technique that combines the power of large language models with external knowledge retrieval. This approach helps overcome limitations of traditional LLMs, such as outdated knowledge and hallucinations.
+
+Key Components of RAG:
+
+1. Document Ingestion: Documents are loaded and split into smaller chunks for processing.
+
+2. Embedding Generation: Each chunk is converted into a vector representation using embedding models.
+
+3. Vector Storage: Embeddings are stored in a vector database like ChromaDB for efficient similarity search.
+
+4. Retrieval: When a query is received, relevant documents are retrieved based on semantic similarity.
+
+5. Generation: The retrieved context is combined with the query and sent to an LLM for answer generation.
+
+Benefits of RAG:
+- Access to up-to-date information
+- Reduced hallucinations through grounded responses
+- Domain-specific knowledge integration
+- Transparency through source attribution
+
+This system uses:
+- ChromaDB for vector storage
+- LlamaIndex for document indexing and retrieval
+- LangChain for LLM orchestration
+- Gradio for the web interface

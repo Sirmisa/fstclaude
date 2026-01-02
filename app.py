@@ -1,7 +1,7 @@
 """Gradio web interface for the RAG system."""
 
 import os
-from typing import List, Tuple
+from typing import List
 
 import gradio as gr
 from dotenv import load_dotenv
@@ -127,9 +127,9 @@ def add_text_document(text: str, doc_name: str) -> str:
 
 def query_rag(
     question: str,
-    chat_history: List[Tuple[str, str]],
+    chat_history: List[dict],
     show_sources: bool
-) -> Tuple[List[Tuple[str, str]], str]:
+) -> tuple[List[dict], str]:
     """Query the RAG system.
 
     Args:
@@ -146,7 +146,8 @@ def query_rag(
         return chat_history, ""
 
     if rag_chain is None:
-        chat_history.append((question, "Please upload documents first to initialize the RAG system."))
+        chat_history.append({"role": "user", "content": question})
+        chat_history.append({"role": "assistant", "content": "Please upload documents first to initialize the RAG system."})
         return chat_history, ""
 
     try:
@@ -161,16 +162,18 @@ def query_rag(
             answer = rag_chain.query(question)
             sources_text = ""
 
-        chat_history.append((question, answer))
+        chat_history.append({"role": "user", "content": question})
+        chat_history.append({"role": "assistant", "content": answer})
         return chat_history, sources_text
 
     except Exception as e:
         error_msg = f"Error: {str(e)}"
-        chat_history.append((question, error_msg))
+        chat_history.append({"role": "user", "content": question})
+        chat_history.append({"role": "assistant", "content": error_msg})
         return chat_history, ""
 
 
-def clear_chat() -> Tuple[List, str]:
+def clear_chat() -> tuple[List, str]:
     """Clear the chat history."""
     return [], ""
 
@@ -186,6 +189,7 @@ def create_interface() -> gr.Blocks:
             chatbot = gr.Chatbot(
                 label="Chat",
                 height=400,
+                type="messages",
             )
 
             with gr.Row():

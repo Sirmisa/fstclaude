@@ -13,6 +13,12 @@ build/
 dist/
 *.egg-info/
 
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+
 # ChromaDB data
 chroma_db/
 
